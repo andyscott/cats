@@ -32,10 +32,10 @@ trait StreamInstances extends cats.kernel.instances.StreamInstances {
       def coflatMap[A, B](fa: Stream[A])(f: Stream[A] => B): Stream[B] =
         fa.tails.toStream.init.map(f)
 
-      def foldLeft[A, B](fa: Stream[A], b: B)(f: (B, A) => B): B =
+      override def foldLeft[A, B](fa: Stream[A], b: B)(f: (B, A) => B): B =
         fa.foldLeft(b)(f)
 
-      def foldRight[A, B](fa: Stream[A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] =
+      override def foldRight[A, B](fa: Stream[A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] =
         Now(fa).flatMap { s =>
           // Note that we don't use pattern matching to deconstruct the
           // stream, since that would needlessly force the tail.

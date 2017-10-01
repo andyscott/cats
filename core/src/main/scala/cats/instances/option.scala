@@ -40,13 +40,13 @@ trait OptionInstances extends cats.kernel.instances.OptionInstances {
       def coflatMap[A, B](fa: Option[A])(f: Option[A] => B): Option[B] =
         if (fa.isDefined) Some(f(fa)) else None
 
-      def foldLeft[A, B](fa: Option[A], b: B)(f: (B, A) => B): B =
+      override def foldLeft[A, B](fa: Option[A], b: B)(f: (B, A) => B): B =
         fa match {
           case None => b
           case Some(a) => f(b, a)
         }
 
-      def foldRight[A, B](fa: Option[A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] =
+      override def foldRight[A, B](fa: Option[A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] =
         fa match {
           case None => lb
           case Some(a) => f(a, lb)

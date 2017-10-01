@@ -210,9 +210,9 @@ private[data] sealed abstract class IorInstances0 {
   implicit def catsDataTraverseFunctorForIor[A]: Traverse[A Ior ?] = new Traverse[A Ior ?] {
     def traverse[F[_]: Applicative, B, C](fa: A Ior B)(f: B => F[C]): F[A Ior C] =
       fa.traverse(f)
-    def foldLeft[B, C](fa: A Ior B, b: C)(f: (C, B) => C): C =
+    override def foldLeft[B, C](fa: A Ior B, b: C)(f: (C, B) => C): C =
       fa.foldLeft(b)(f)
-    def foldRight[B, C](fa: A Ior B, lc: Eval[C])(f: (B, Eval[C]) => Eval[C]): Eval[C] =
+    override def foldRight[B, C](fa: A Ior B, lc: Eval[C])(f: (B, Eval[C]) => Eval[C]): Eval[C] =
       fa.foldRight(lc)(f)
 
     override def size[B](fa: A Ior B): Long = fa.fold(_ => 0L, _ => 1L, (_, _) => 1L)

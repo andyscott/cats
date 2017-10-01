@@ -71,9 +71,9 @@ private[data] sealed abstract class ConstInstances extends ConstInstances0 {
   }
 
   implicit def catsDataTraverseForConst[C]: Traverse[Const[C, ?]] = new Traverse[Const[C, ?]] {
-    def foldLeft[A, B](fa: Const[C, A], b: B)(f: (B, A) => B): B = b
+    override def foldLeft[A, B](fa: Const[C, A], b: B)(f: (B, A) => B): B = b
 
-    def foldRight[A, B](fa: Const[C, A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] = lb
+    override def foldRight[A, B](fa: Const[C, A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] = lb
 
     override def size[A](fa: Const[C, A]): Long = 0L
 

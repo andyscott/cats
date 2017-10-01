@@ -84,10 +84,10 @@ private[data] sealed trait IdTMonad[F[_]] extends Monad[IdT[F, ?]] with IdTAppli
 private[data] sealed trait IdTFoldable[F[_]] extends Foldable[IdT[F, ?]] {
   implicit val F0: Foldable[F]
 
-  def foldLeft[A, B](fa: IdT[F, A], b: B)(f: (B, A) => B): B =
+  override def foldLeft[A, B](fa: IdT[F, A], b: B)(f: (B, A) => B): B =
     fa.foldLeft(b)(f)
 
-  def foldRight[A, B](fa: IdT[F, A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] =
+  override def foldRight[A, B](fa: IdT[F, A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] =
     fa.foldRight(lb)(f)
 
   override def size[A](fa: IdT[F, A]): Long =

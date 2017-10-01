@@ -34,13 +34,13 @@ trait TryInstances extends TryInstances1 {
 
       def flatMap[A, B](ta: Try[A])(f: A => Try[B]): Try[B] = ta.flatMap(f)
 
-      def foldLeft[A, B](fa: Try[A], b: B)(f: (B, A) => B): B =
+      override def foldLeft[A, B](fa: Try[A], b: B)(f: (B, A) => B): B =
         fa match {
           case Success(a) => f(b, a)
           case Failure(_) => b
         }
 
-      def foldRight[A, B](fa: Try[A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] =
+      override def foldRight[A, B](fa: Try[A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] =
         fa match {
           case Success(a) => f(a, lb)
           case Failure(_) => lb

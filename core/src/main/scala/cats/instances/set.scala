@@ -14,10 +14,10 @@ trait SetInstances extends cats.kernel.instances.SetInstances {
 
       def combineK[A](x: Set[A], y: Set[A]): Set[A] = x | y
 
-      def foldLeft[A, B](fa: Set[A], b: B)(f: (B, A) => B): B =
+      override def foldLeft[A, B](fa: Set[A], b: B)(f: (B, A) => B): B =
         fa.foldLeft(b)(f)
 
-      def foldRight[A, B](fa: Set[A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] =
+      override def foldRight[A, B](fa: Set[A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] =
         Foldable.iterateRight(fa.iterator, lb)(f)
 
       override def get[A](fa: Set[A])(idx: Long): Option[A] = {

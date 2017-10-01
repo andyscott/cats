@@ -32,10 +32,10 @@ trait VectorInstances extends cats.kernel.instances.VectorInstances {
         loop(new VectorBuilder[B], fa)
       }
 
-      def foldLeft[A, B](fa: Vector[A], b: B)(f: (B, A) => B): B =
+      override def foldLeft[A, B](fa: Vector[A], b: B)(f: (B, A) => B): B =
         fa.foldLeft(b)(f)
 
-      def foldRight[A, B](fa: Vector[A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] = {
+      override def foldRight[A, B](fa: Vector[A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] = {
         def loop(i: Int): Eval[B] =
           if (i < fa.length) f(fa(i), Eval.defer(loop(i + 1))) else lb
         Eval.defer(loop(0))

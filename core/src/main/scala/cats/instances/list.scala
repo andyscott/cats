@@ -53,10 +53,10 @@ trait ListInstances extends cats.kernel.instances.ListInstances {
         loop(ListBuffer.empty[B], fa)
       }
 
-      def foldLeft[A, B](fa: List[A], b: B)(f: (B, A) => B): B =
+      override def foldLeft[A, B](fa: List[A], b: B)(f: (B, A) => B): B =
         fa.foldLeft(b)(f)
 
-      def foldRight[A, B](fa: List[A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] = {
+      override def foldRight[A, B](fa: List[A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] = {
         def loop(as: List[A]): Eval[B] =
           as match {
             case Nil => lb

@@ -279,10 +279,10 @@ private trait OptionTMonadError[F[_], E] extends MonadError[OptionT[F, ?], E] wi
 private[data] trait OptionTFoldable[F[_]] extends Foldable[OptionT[F, ?]] {
   implicit def F: Foldable[F]
 
-  def foldLeft[A, B](fa: OptionT[F, A], b: B)(f: (B, A) => B): B =
+  override def foldLeft[A, B](fa: OptionT[F, A], b: B)(f: (B, A) => B): B =
     fa.foldLeft(b)(f)
 
-  def foldRight[A, B](fa: OptionT[F, A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] =
+  override def foldRight[A, B](fa: OptionT[F, A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] =
     fa.foldRight(lb)(f)
 }
 

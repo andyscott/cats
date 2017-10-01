@@ -70,13 +70,13 @@ trait EitherInstances extends cats.kernel.instances.EitherInstances {
           case Right(b)       => F.map(f(b))(Right(_))
         }
 
-      def foldLeft[B, C](fa: Either[A, B], c: C)(f: (C, B) => C): C =
+      override def foldLeft[B, C](fa: Either[A, B], c: C)(f: (C, B) => C): C =
         fa match {
           case Left(_) => c
           case Right(b) => f(c, b)
         }
 
-      def foldRight[B, C](fa: Either[A, B], lc: Eval[C])(f: (B, Eval[C]) => Eval[C]): Eval[C] =
+      override def foldRight[B, C](fa: Either[A, B], lc: Eval[C])(f: (B, Eval[C]) => Eval[C]): Eval[C] =
         fa match {
           case Left(_) => lc
           case Right(b) => f(b, lc)

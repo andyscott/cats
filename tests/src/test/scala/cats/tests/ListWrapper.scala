@@ -48,10 +48,10 @@ object ListWrapper {
     val F = Traverse[List]
 
     new Traverse[ListWrapper] {
-      def foldLeft[A, B](fa: ListWrapper[A], b: B)(f: (B, A) => B): B =
+      /*def foldLeft[A, B](fa: ListWrapper[A], b: B)(f: (B, A) => B): B =
         F.foldLeft(fa.list, b)(f)
       def foldRight[A, B](fa: ListWrapper[A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] =
-        F.foldRight(fa.list, lb)(f)
+        F.foldRight(fa.list, lb)(f)*/
       def traverse[G[_], A, B](fa: ListWrapper[A])(f: A => G[B])(implicit G0: Applicative[G]): G[ListWrapper[B]] = {
         G0.map(F.traverse(fa.list)(f))(ListWrapper.apply)
       }

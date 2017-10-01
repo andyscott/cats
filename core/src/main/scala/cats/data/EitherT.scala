@@ -588,10 +588,10 @@ private[data] trait EitherTMonadError[F[_], L] extends MonadError[EitherT[F, L, 
 private[data] sealed trait EitherTFoldable[F[_], L] extends Foldable[EitherT[F, L, ?]] {
   implicit def F0: Foldable[F]
 
-  def foldLeft[A, B](fa: EitherT[F, L, A], b: B)(f: (B, A) => B): B =
+  override def foldLeft[A, B](fa: EitherT[F, L, A], b: B)(f: (B, A) => B): B =
     fa.foldLeft(b)(f)
 
-  def foldRight[A, B](fa: EitherT[F, L, A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] =
+  override def foldRight[A, B](fa: EitherT[F, L, A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] =
     fa.foldRight(lb)(f)
 }
 

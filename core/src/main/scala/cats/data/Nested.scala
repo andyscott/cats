@@ -204,10 +204,10 @@ private[data] trait NestedAlternative[F[_], G[_]] extends Alternative[Nested[F, 
 private[data] trait NestedFoldable[F[_], G[_]] extends Foldable[Nested[F, G, ?]] {
   def FG: Foldable[λ[α => F[G[α]]]]
 
-  def foldLeft[A, B](fga: Nested[F, G, A], b: B)(f: (B, A) => B): B =
+  override def foldLeft[A, B](fga: Nested[F, G, A], b: B)(f: (B, A) => B): B =
     FG.foldLeft(fga.value, b)(f)
 
-  def foldRight[A, B](fga: Nested[F, G, A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] =
+  override def foldRight[A, B](fga: Nested[F, G, A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] =
     FG.foldRight(fga.value, lb)(f)
 }
 

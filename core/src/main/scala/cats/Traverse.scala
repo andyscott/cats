@@ -95,6 +95,14 @@ import simulacrum.typeclass
   override def map[A, B](fa: F[A])(f: A => B): F[B] =
     traverse[Id, A, B](fa)(f)
 
+  override def foldLeft[A, B](fa: F[A], b: B)(f: (B, A) => B): B =
+    traverse(fa)(a =>
+      StateT.modify[Id, B => B](s => bb => s(f(bb, a)))).runS(identity).apply(b)
+
+  override def foldRight[A, B](fa: F[A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] =
+    traverse(fa)(a =>
+      StateT.modify((s: Eval[B]) => Eval.defer(f(a, s)))).runS(lb)
+
   /**
    * Akin to [[map]], but also provides the value's index in structure
    * F when calling the function.

@@ -62,10 +62,10 @@ trait QueueInstances extends cats.kernel.instances.QueueInstances {
         loop(fa)
       }
 
-      def foldLeft[A, B](fa: Queue[A], b: B)(f: (B, A) => B): B =
+      override def foldLeft[A, B](fa: Queue[A], b: B)(f: (B, A) => B): B =
         fa.foldLeft(b)(f)
 
-      def foldRight[A, B](fa: Queue[A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] = {
+      override def foldRight[A, B](fa: Queue[A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] = {
         def loop(as: Queue[A]): Eval[B] =
           if (as.isEmpty) lb
           else {

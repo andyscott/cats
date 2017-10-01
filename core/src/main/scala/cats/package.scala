@@ -48,8 +48,8 @@ package object cats {
       override def map2[A, B, Z](fa: A, fb: B)(f: (A, B) => Z): Z = f(fa, fb)
       override def lift[A, B](f: A => B): A => B = f
       override def imap[A, B](fa: A)(f: A => B)(fi: B => A): B = f(fa)
-      def foldLeft[A, B](a: A, b: B)(f: (B, A) => B) = f(b, a)
-      def foldRight[A, B](a: A, lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] =
+      override def foldLeft[A, B](a: A, b: B)(f: (B, A) => B) = f(b, a)
+      override def foldRight[A, B](a: A, lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] =
         f(a, lb)
       def nonEmptyTraverse[G[_], A, B](a: A)(f: A => G[B])(implicit G: Apply[G]): G[B] =
         f(a)
