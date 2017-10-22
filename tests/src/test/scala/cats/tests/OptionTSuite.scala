@@ -10,6 +10,11 @@ class OptionTSuite extends CatsSuite {
   implicit val iso = SemigroupalTests.Isomorphisms.invariant[OptionT[ListWrapper, ?]](OptionT.catsDataFunctorForOptionT(ListWrapper.functor))
 
   {
+    checkAll("OptionT[?[_], Int]", FunctorKTests[OptionT[?[_], Int]].functorK(
+      λ[Vector ~> List](_.toList), λ[List ~> Option](_.headOption)))
+  }
+
+  {
     implicit val F = ListWrapper.eqv[Option[Int]]
 
     checkAll("OptionT[ListWrapper, Int]", EqTests[OptionT[ListWrapper, Int]].eqv)

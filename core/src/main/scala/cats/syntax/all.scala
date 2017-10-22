@@ -21,6 +21,7 @@ trait AllSyntax
     with FlatMapSyntax
     with FoldableSyntax
     with FunctorSyntax
+    with FunctorKSyntax
     with GroupSyntax
     with HashSyntax
     with InvariantSyntax

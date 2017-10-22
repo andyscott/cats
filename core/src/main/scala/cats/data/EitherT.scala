@@ -525,6 +525,9 @@ private[data] abstract class EitherTInstances2 extends EitherTInstances3 {
 private[data] abstract class EitherTInstances3 {
   implicit def catsDataFunctorForEitherT[F[_], L](implicit F0: Functor[F]): Functor[EitherT[F, L, ?]] =
     new EitherTFunctor[F, L] { implicit val F = F0 }
+
+  implicit def catsDataFunctionKForEitherT[A, B]: FunctorK[EitherT[?[_], A, B]] =
+    EitherTFunctorK.specialize[A, B]
 }
 
 private[data] trait EitherTSemigroup[F[_], L, A] extends Semigroup[EitherT[F, L, A]] {
@@ -550,6 +553,13 @@ private[data] trait EitherTSemigroupK[F[_], L] extends SemigroupK[EitherT[F, L, 
 private[data] trait EitherTFunctor[F[_], L] extends Functor[EitherT[F, L, ?]] {
   implicit val F: Functor[F]
   override def map[A, B](fa: EitherT[F, L, A])(f: A => B): EitherT[F, L, B] = fa map f
+}
+
+private[data] object EitherTFunctorK extends FunctorK[EitherT[?[_], Any, Any]] {
+  def specialize[A, B]: FunctorK[EitherT[?[_], A, B]] =
+    this.asInstanceOf[FunctorK[EitherT[?[_], A, B]]]
+
+  def mapK[F[_], G[_]](v: EitherT[F, Any, Any])(f: F ~> G): EitherT[G, Any, Any] = v.mapK(f)
 }
 
 private[data] trait EitherTMonad[F[_], L] extends Monad[EitherT[F, L, ?]] with EitherTFunctor[F, L] {

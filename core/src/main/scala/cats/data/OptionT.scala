@@ -248,12 +248,22 @@ private[data] sealed abstract class OptionTInstances2 extends OptionTInstances3 
 private[data] sealed abstract class OptionTInstances3 {
   implicit def catsDataFunctorForOptionT[F[_]](implicit F0: Functor[F]): Functor[OptionT[F, ?]] =
     new OptionTFunctor[F] { implicit val F = F0 }
+
+  implicit def catsDataFunctionKForOptionT[A]: FunctorK[OptionT[?[_], A]] =
+    OptionTFunctorK.specialize[A]
 }
 
 private[data] trait OptionTFunctor[F[_]] extends Functor[OptionT[F, ?]] {
   implicit def F: Functor[F]
 
   override def map[A, B](fa: OptionT[F, A])(f: A => B): OptionT[F, B] = fa.map(f)
+}
+
+private[data] object OptionTFunctorK extends FunctorK[OptionT[?[_], Any]] {
+  def specialize[A]: FunctorK[OptionT[?[_], A]] =
+    this.asInstanceOf[FunctorK[OptionT[?[_], A]]]
+
+  def mapK[F[_], G[_]](v: OptionT[F, Any])(f: F ~> G): OptionT[G, Any] = v.mapK(f)
 }
 
 private[data] trait OptionTMonad[F[_]] extends Monad[OptionT[F, ?]] {

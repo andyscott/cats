@@ -22,6 +22,7 @@ package object syntax {
   object flatMap extends FlatMapSyntax
   object foldable extends FoldableSyntax
   object functor extends FunctorSyntax
+  object functork extends FunctorKSyntax
   object group extends GroupSyntax
   object invariant extends InvariantSyntax
   object ior extends IorSyntax
